@@ -34,3 +34,18 @@ services:
       - name: product-management-data
         mountPath: /var/data
         sizeGB: 1
+
+  - type: web
+    name: product-management-frontend
+    env: static
+    plan: free
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: frontend/dist
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false
