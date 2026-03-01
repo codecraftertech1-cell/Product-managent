@@ -31,4 +31,4 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 EXPOSE 10000
 
 # Render provides PORT dynamically; default 10000 for local runs
-CMD ["sh", "-c", "php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
+CMD ["sh", "-c", "mkdir -p /var/data && touch ${DB_DATABASE:-/var/data/database.sqlite} && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
